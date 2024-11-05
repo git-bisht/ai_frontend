@@ -1,0 +1,79 @@
+/* src/styles.css */
+body{
+    background: #c0c0c0a6;
+}
+.signin {
+  
+    width: 380px;
+    background: #ffffff;
+    
+   
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.signin  h1 {
+    font-size: 2em;
+    color: #000000;
+    text-transform: uppercase;
+}
+.signin  .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}.signin   .form .links {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.signin  .form .links a  {
+    color: #000000;
+    font-weight: 600;
+    text-decoration: none;
+}
+.signin .btn-primary{
+    padding: 10px;
+    background: #000000;
+    color: #f7f7f7;
+    font-weight: 600;
+    border: none;
+    font-size: 1.35em;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+}
+ .signin .form  input {
+    position: relative;
+    width: 100%;
+    background: #e7e3e3;
+    border: none;
+    outline: none;
+    padding:  10px 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1em;
+}
+.signin .form input:focus{outline: none; border-color: none;}
+.signin .form input:focus::placeholder {
+    position: absolute;
+    left: 0;
+    /* top: 10px; */
+    padding: 0px 10px;
+    margin-top: -5px;
+    font-size: 14px !important;
+    color: #aaa;
+    transition: 0.5s;
+    pointer-events: none;
+  }
+/* Global styles for removing focus outline */
+input:focus, 
+select:focus, 
+textarea:focus, 
+button:focus {
+    outline: none !important; /* Remove the outline */
+    box-shadow: none !important; /* Remove any box-shadow */
+}
+
+ 
