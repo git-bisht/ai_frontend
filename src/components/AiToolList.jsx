@@ -1,49 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// src/components/AiToolList.js
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAiTools } from '../redux/aiToolSlice';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';  // Import PrimeReact theme
 import 'primereact/resources/primereact.min.css';  // Import PrimeReact styles
 import 'primeicons/primeicons.css';  // Import PrimeIcons
 
 const AiToolList = () => {
-  const [tools, setTools] = useState([]);  // To store fetched data
-  const [loading, setLoading] = useState(true);  // To track loading state
-  const [error, setError] = useState(null);  // To track errors
+  const dispatch = useDispatch();
+  const { tools, loading, error } = useSelector((state) => state.aiTools);
 
-  // Fetch AI tools data on component mount
+  const imageBodyTemplate = (tool) => {
+    return <img src={`${tool.image}`} alt={tool.image} 
+    style={{ width: '100px', height: '100px', objectFit: 'contain' }} 
+    className="w-6rem shadow-2 border-round" />;
+  };
+
+  const goToLinkTemplate = (tool) => {
+    return (
+            <Button label="Link" link onClick={() =>  window.open(tool.link, '_blank')}/>
+    );
+  };
+
   useEffect(() => {
-    const fetchTools = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/ai-tools');  // Replace with your API URL
-        setTools(response.data);  // Store fetched data in the state
-        setLoading(false);  // Set loading to false once data is fetched
-      } catch (err) {
-        setError(err.message);  // Set error message if API call fails
-        setLoading(false);  // Set loading to false in case of error
-      }
-    };
+    dispatch(fetchAiTools());
+  }, [dispatch]);
 
-    fetchTools();
-  }, []);  // Empty dependency array to run once on mount
-
-  if (loading) {
-    return <div>Loading...</div>;  // Show loading message while fetching data
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;  // Show error message if API call fails
-  }
-
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
   return (
     <div>
       <h1>AI Tools List</h1>
-      <DataTable value={tools} paginator rows={10} loading={loading}>
+      <DataTable value={tools} paginator rows={10} loading={loading} tableStyle={{ minWidth: '60rem' }}>
         <Column field="id" header="ID" sortable />
         <Column field="name" header="Tool Name" sortable />
         <Column field="description" header="Description" sortable />
-        <Column field="category" header="Category" sortable />
-        <Column field="created_at" header="Created At" sortable />
+        <Column body={imageBodyTemplate} header="Image"  />
+        <Column field="usage" header="Usage" sortable />
+        <Column field="link" header="Go To Link" body={goToLinkTemplate} />
+        {/* <Column field="created_at" header="Created At" sortable /> */}
         {/* Add more columns as needed */}
       </DataTable>
     </div>
